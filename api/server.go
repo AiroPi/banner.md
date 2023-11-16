@@ -1,11 +1,9 @@
-package main
+package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"io"
-	"log"
 	"net/http"
 	"regexp"
 )
@@ -88,14 +86,4 @@ func bannerHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-}
-
-func main() {
-	http.HandleFunc("/banner", bannerHandler)
-
-	fmt.Printf("Starting server at port 8080\n")
-
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		log.Fatal(err)
-	}
 }
