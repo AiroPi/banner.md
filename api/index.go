@@ -5,6 +5,8 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+	"os"
+	"path"
 	"regexp"
 )
 
@@ -26,8 +28,18 @@ type GithubRepo struct {
 
 var (
 	githubApiRegex = regexp.MustCompile(`(.+)/(.+)`)
-	t              = template.Must(template.New("banner.tmpl").ParseFiles("../banner.tmpl"))
+	t              = getTemplate()
 )
+
+func getTemplate() *template.Template {
+	cwd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	templatePath := path.Join(cwd, "banner.tmpl")
+	t := template.Must(template.New("banner.tmpl").ParseFiles(templatePath))
+	return t
+}
 
 func BannerHandler(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("title")
