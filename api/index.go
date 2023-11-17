@@ -25,7 +25,7 @@ type GithubRepo struct {
 }
 
 var (
-	githubApiRegex = regexp.MustCompile(`([^/]+)/.+)`)
+	githubApiRegex = regexp.MustCompile(`(.+)/(.+)`)
 	t              = template.Must(template.New("banner.tmpl").ParseFiles("banner.tmpl"))
 )
 
