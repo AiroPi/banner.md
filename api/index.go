@@ -29,7 +29,7 @@ var (
 	t              = template.Must(template.New("banner.tmpl").ParseFiles("banner.tmpl"))
 )
 
-func bannerHandler(w http.ResponseWriter, r *http.Request) {
+func BannerHandler(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("title")
 	description := r.URL.Query().Get("desc")
 	githubRepo := r.URL.Query().Get("repo")
