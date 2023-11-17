@@ -1,9 +1,11 @@
-package handler
+package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"net/http"
 	"regexp"
 )
@@ -26,10 +28,15 @@ type GithubRepo struct {
 
 var (
 	githubApiRegex = regexp.MustCompile(`(.+)/(.+)`)
-	t              = template.Must(template.New("banner.tmpl").ParseFiles("banner.tmpl"))
+	t              = getTemplate()
 )
 
-func BannerHandler(w http.ResponseWriter, r *http.Request) {
+func getTemplate() *template.Template {
+	t := template.Must(template.New("banner.tmpl").ParseFiles("banner.tmpl"))
+	return t
+}
+
+func bannerHandler(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("title")
 	description := r.URL.Query().Get("desc")
 	githubRepo := r.URL.Query().Get("repo")
@@ -86,4 +93,14 @@ func BannerHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+}
+
+func main() {
+	http.HandleFunc("/banner", bannerHandler)
+
+	fmt.Printf("Starting server at port 8080\n")
+
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
 }
