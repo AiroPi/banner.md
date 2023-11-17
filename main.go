@@ -1,12 +1,12 @@
-package handler
+package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"net/http"
-	"os"
-	"path"
 	"regexp"
 )
 
@@ -32,16 +32,11 @@ var (
 )
 
 func getTemplate() *template.Template {
-	cwd, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-	templatePath := path.Join(cwd, "files", "banner.tmpl")
-	t := template.Must(template.New("banner.tmpl").ParseFiles(templatePath))
+	t := template.Must(template.New("banner.tmpl").ParseFiles("banner.tmpl"))
 	return t
 }
 
-func BannerHandler(w http.ResponseWriter, r *http.Request) {
+func bannerHandler(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("title")
 	description := r.URL.Query().Get("desc")
 	githubRepo := r.URL.Query().Get("repo")
@@ -98,4 +93,14 @@ func BannerHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+}
+
+func main() {
+	http.HandleFunc("/banner", bannerHandler)
+
+	fmt.Printf("Starting server at port 8080\n")
+
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
 }
