@@ -1,1 +1,3 @@
-go 1.20
+module banned.md
+
+go 1.21.4
