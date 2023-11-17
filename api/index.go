@@ -26,7 +26,7 @@ type GithubRepo struct {
 
 var (
 	githubApiRegex = regexp.MustCompile(`(.+)/(.+)`)
-	t              = template.Must(template.New("banner.tmpl").ParseFiles("banner.tmpl"))
+	t              = template.Must(template.New("banner.tmpl").ParseFiles("../banner.tmpl"))
 )
 
 func BannerHandler(w http.ResponseWriter, r *http.Request) {
