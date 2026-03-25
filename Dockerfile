@@ -9,6 +9,7 @@ RUN go build
 
 FROM scratch
 COPY --from=0 /app/bannermd /app/bannermd
+COPY --from=0 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY ./banner.tmpl ./banner.tmpl
 
 CMD ["/app/bannermd"]
