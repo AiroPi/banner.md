@@ -7,4 +7,7 @@ RUN go mod download && go mod verify
 COPY . .
 RUN go build
 
+FROM scratch
+COPY --from=0 /app/bannermd /app/bannermd
+
 CMD ["/app/bannermd"]
